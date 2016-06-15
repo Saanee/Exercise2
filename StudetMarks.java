@@ -5,31 +5,37 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ListIterator;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
-
 
 public class StudetMarks {
 
-	public static void main(String[] args)
-			throws Exception {/*
-								 * java.io.File file = new
-								 * java.io.File("C:/Users/Sanaz61/marks.txt");
-								 * if (file.exists()) { System.out.println(
-								 * "File already exists"); System.exit(1); }
-								 * java.io.PrintWriter output = new
-								 * java.io.PrintWriter(file);
-								 * 
-								 * // Write formatted output to the file
-								 * output.print("Simon "); output.println(4);
-								 * output.print("Anna "); output.println(10);
-								 * output.print("Simon "); output.println(4);
-								 * output.print("Anna "); output.println(9);
-								 * output.print("Anna "); output.println(5);
-								 * output.print("Edward "); output.println(10);
-								 * output.close();
-								 * 
-								 */
+	public static void main(String[] args) throws Exception {
+		java.io.File file = new java.io.File("C:/Users/Sanaz61/marks.txt");
+		if (file.exists()) {
+			System.out.println("File already exists");
+			System.exit(1);
+		}
+		java.io.PrintWriter output = new java.io.PrintWriter(file);
+
+		// Write formatted output to the file
+		output.print("Simon ");
+		output.println(4);
+		output.print("Anna ");
+		output.println(10);
+		output.print("Simon ");
+		output.println(4);
+		output.print("Anna ");
+		output.println(9);
+		output.print("Anna ");
+		output.println(5);
+		output.print("Edward ");
+		output.println(10);
+		output.close();
+
 		String sCurrentLine;
 		TreeMap<String, ArrayList<Double[]>> rowMap = new TreeMap<String, ArrayList<Double[]>>();
 		try (BufferedReader br = new BufferedReader(new FileReader("C:/Users/Sanaz61/marks.txt"))) {
@@ -54,7 +60,8 @@ public class StudetMarks {
 			}
 			System.out.println("Sort in alphabetic order");
 			ArrayList<Double> list = new ArrayList<>();
-			
+			TreeMap<String, Double> meritMap = new TreeMap<>();
+
 			for (String key : rowMap.keySet()) {
 				double sum = 0;
 				Integer count = 0;
@@ -68,35 +75,39 @@ public class StudetMarks {
 					}
 				}
 				avg = (sum / count);
-				row += " " + count + " " + avg;			
+				row += " " + count + " " + avg;
+				meritMap.put(key, avg);
+
 				list.add(avg);
-				System.out.println(row);			
+				System.out.println(row);
 			}
 			System.out.println("Sort in merit order");
-			
-			Collections.sort(list);
-			ListIterator<Double> listIterator = list.listIterator(list.size());
-			while (listIterator.hasPrevious()) {
-				System.out.println(listIterator.previous());
-			}
-			
 
-			
+			System.out.println(sortedByValues(meritMap));
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	static <K, V extends Comparable<? super V>> List<Entry<K, V>> sortedByValues(Map<K, V> map) {
+
+		List<Entry<K, V>> sortedEntries = new ArrayList<Entry<K, V>>(map.entrySet());
+
+		Collections.sort(sortedEntries, new Comparator<Entry<K, V>>() {
+			@Override
+			public int compare(Entry<K, V> e1, Entry<K, V> e2) {
+				return e2.getValue().compareTo(e1.getValue());
+			}
+		});
+
+		return sortedEntries;
+	}
 }
+
+				
+			
+			
+
+	
