@@ -36,13 +36,13 @@ public class StudetMarks {
 		output.println(10);
 		output.close();
 
-		String sCurrentLine;
-		TreeMap<String, ArrayList<Double[]>> rowMap = new TreeMap<String, ArrayList<Double[]>>();
+		String currentLine;
+		TreeMap<String, ArrayList<Double[]>> myMap = new TreeMap<String, ArrayList<Double[]>>();
 		try (BufferedReader br = new BufferedReader(new FileReader("C:/Users/Sanaz61/marks.txt"))) {
 			String colKey = null;
-			while ((sCurrentLine = br.readLine()) != null) {
+			while ((currentLine = br.readLine()) != null) {
 
-				String[] cols = sCurrentLine.split(" ");
+				String[] cols = currentLine.split(" ");
 
 				try {
 					colKey = cols[0];
@@ -50,10 +50,10 @@ public class StudetMarks {
 					for (int i = 1; i < cols.length; i++) {
 						colValues[i - 1] = Double.parseDouble(cols[i]);
 					}
-					if (!rowMap.containsKey(colKey)) {
-						rowMap.put(colKey, new ArrayList<Double[]>());
+					if (!myMap.containsKey(colKey)) {
+						myMap.put(colKey, new ArrayList<Double[]>());
 					}
-					rowMap.get(colKey).add(colValues);
+					myMap.get(colKey).add(colValues);
 				} catch (NumberFormatException e) {
 				}
 
@@ -62,13 +62,13 @@ public class StudetMarks {
 			ArrayList<Double> list = new ArrayList<>();
 			TreeMap<String, Double> meritMap = new TreeMap<>();
 
-			for (String key : rowMap.keySet()) {
+			for (String key : myMap.keySet()) {
 				double sum = 0;
 				Integer count = 0;
 				double avg = 0;
 				String row = key + "";
 
-				for (Double[] rows : rowMap.get(key)) {
+				for (Double[] rows : myMap.get(key)) {
 					for (Double col : rows) {
 						sum += col;
 						count++;
@@ -105,6 +105,7 @@ public class StudetMarks {
 		return sortedEntries;
 	}
 }
+
 
 				
 			
